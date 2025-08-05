@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --background-dark: #23283b;
+      --side-dark: #181b2a;
+      --accent-dark: #4562a5;
+      --text-dark: #f3f6fd;
+      --background-romantic: #ffe4ec;
+      --side-romantic: #ffb3d0;
+      --accent-romantic: #ffaec9;
+      --text-romantic: #710048;
+      --border-radius: 15px;
+    }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      grid-template-rows: 60px 1fr;
+      grid-template-areas:
+        "sidebar header"
+        "sidebar main";
+      font-family: 'Segoe UI', Arial, sans-serif;
+      transition: background-color .3s, color .3s;
+      background: var(--background-dark);
+      color: var(--text-dark);
+    }
+    body.romantic {
+      background: var(--background-romantic);
+      color: var(--text-romantic);
+    }
+    .sidebar {
+      grid-area: sidebar;
+      background: var(--side-dark);
+      border-top-right-radius: var(--border-radius);
+      display: flex;
+      flex-direction: column;
+      padding: 30px 0;
+      align-items: center;
+      transition: background-color .3s;
+    }
+    body.romantic .sidebar {
+      background: var(--side-romantic);
+    }
+    .sidebar h2 {
+      margin: 0 0 35px 0;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+    .side-link {
+      padding: 14px 40px;
+      margin: 6px 0;
+      border-radius: 11px;
+      background: var(--accent-dark);
+      color: #fff;
+      text-align: center;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .side-link:hover {
+      background: #2d3656;
+    }
+    body.romantic .side-link {
+      background: var(--accent-romantic);
+      color: var(--text-romantic);
+    }
+    body.romantic .side-link:hover {
+      background: #fff7fa;
+      color: #a02071;
+    }
+    header {
+      grid-area: header;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      background: linear-gradient(to right, var(--side-dark), var(--accent-dark));
+      border-bottom-left-radius: var(--border-radius);
+      transition: background .3s, color .3s;
+    }
+    body.romantic header {
+      background: linear-gradient(to right, var(--side-romantic), var(--accent-romantic));
+      color: var(--text-romantic);
+    }
+    .theme-switcher {
+      padding: 8px 18px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: var(--accent-dark);
+      color: #fff;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    body.romantic .theme-switcher {
+      background: var(--accent-romantic);
+      color: var(--text-romantic);
+    }
+    body.romantic .theme-switcher:hover {
+      background: #fff7fa;
+      color: #d52c74;
+    }
+    .container-main {
+      grid-area: main;
+      padding: 2rem;
+    }
+    .dashboard-panel {
+      background: var(--accent-dark);
+      color: #fff;
+      border-radius: var(--border-radius);
+      padding: 28px;
+      max-width: 520px;
+      margin-bottom: 18px;
+      transition: background .3s, color .3s;
+      box-shadow: 0 8px 20px rgba(44,40,90,0.07);
+    }
+    body.romantic .dashboard-panel {
+      background: var(--accent-romantic);
+      color: var(--text-romantic);
+      box-shadow: 0 4px 15px #ffaec9;
+    }
+    .dashboard-panel h3,
+    .dashboard-panel h4 {
+      margin-top: 0;
+      font-weight: 600;
+    }
+    @media (max-width: 700px) {
+      body {
+        grid-template-columns: 70px 1fr;
+      }
+      .sidebar h2 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+      .side-link {
+        font-size: 0.85rem;
+        padding: 7px 0;
+        width: 45px;
+      }
+      .container-main {
+        padding: 1rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Dashboard</h2>
+    <div class="side-link">Home</div>
+    <div class="side-link">Reports</div>
+    <div class="side-link">Analytics</div>
+    <div class="side-link">Settings</div>
+    <div class="side-link">Profile</div>
+  </div>
+  <header>
+    Admin Dashboard
+    <button class="theme-switcher" onclick="switchTheme()">
+      Switch to Romantic
+    </button>
+  </header>
+  <div class="container-main">
+    <div class="dashboard-panel">
+      <h3>Main Dashboard</h3>
+      <p>
+        Welcome to the Admin Dashboard.<br>
+        Use the theme button to switch between a traditional dark mode and a softer romantic theme.
+      </p>
+      <p>
+        Navigation links in the sidebar are placeholders.
+      </p>
+    </div>
+    <div class="dashboard-panel">
+      <h4>Status Overview</h4>
+      <ul>
+        <li>Reports generated: 0</li>
+        <li>System Status: Active</li>
+        <li>Theme: <span id="theme-indicator">Dark</span></li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    const switcher = document.querySelector('.theme-switcher');
+    let isRomantic = false;
+    const themeInd = document.getElementById('theme-indicator');
+
+    function switchTheme() {
+      isRomantic = !isRomantic;
+      document.body.classList.toggle('romantic');
+      switcher.textContent = isRomantic
+        ? 'Switch to Dark'
+        : 'Switch to Romantic';
+      themeInd.textContent = isRomantic ? 'Romantic' : 'Dark';
+    }
+  </script>
+</body>
+</html>
